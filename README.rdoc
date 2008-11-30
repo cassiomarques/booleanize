@@ -4,7 +4,10 @@ Booleanize is a Ruby on Rails plugin that adds new methods to help you work with
 
 == Instance Methods
 
-Suppose you have a boolean attribute called <tt>active</tt> inside a User model. If you pass the name of this attribute for the booleanize, two new methods will be created.
+Suppose you have a boolean attribute called <tt>active</tt> inside a User model. If you pass the name of this attribute for the booleanize, two new methods will be created: 
+
+* <tt>active?</tt> - Returns if the attribute's value is <tt>true</tt> or <tt>false</tt>
+* <tt>active_humanize</tt> - Returns a string representing each of the <tt>true</tt> or <tt>false</tt> values.
 
 
 
