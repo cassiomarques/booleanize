@@ -4,7 +4,7 @@ Booleanize is a Ruby on Rails plugin that adds new methods to help you work with
 
 == Instance Methods
 
-Suppose you have a boolean attribute called <tt>active</tt> inside a User model. If you pass the name of this attribute for the booleanize, two new methods will be created: 
+Suppose you have a boolean attribute called <tt>active</tt> inside a User model. If you pass the name of this attribute to the booleanize method, two new methods will be created: 
 
 * <tt>active?</tt> - Returns if the attribute's value is <tt>true</tt> or <tt>false</tt>
 * <tt>active_humanize</tt> - Returns a string representing each of the <tt>true</tt> or <tt>false</tt> values.
@@ -28,15 +28,20 @@ You can also specify which strings Booleanize should use for each of the <tt>tru
     booleanize [:active, "Yes", "No"]
   end
   
-  u = user.new(:active => true)
+  u = User.new(:active => true)
   u.active_humanize #=> "Yes"
   
 == Named scopes
 
-Booleanize will create two new named_scopes for each received attribute. Using the example given above, will have
+Booleanize will create two new named_scopes for each received attribute. Using the example given above, we'll have:
 
-* <tt>active</tt>  - Will return all the objects for which the <tt>active</tt> boolean attribute is true. It's equivalent to <tt>named_scope :active, :conditions => {:active => true}</tt>
-* <tt>not_active</tt> - Will return all the objects for which the <tt>active</tt> boolean attribute is false. It's equivalent to <tt>named_scope :not-active, :conditions => {:active => false}</tt>
+* <tt>active</tt>  - Will return all the objects for which the <tt>active</tt> boolean attribute is true. It's equivalent to
+  
+  <tt>named_scope :active, :conditions => {:active => true}</tt>
+  
+* <tt>not_active</tt> - Will return all the objects for which the <tt>active</tt> boolean attribute is false. It's equivalent to 
+
+  <tt>named_scope :not-active, :conditions => {:active => false}</tt>
   
 You can pass as many attributes to the <tt>booleanize</tt> method, either in the form of a symbol or as a three element array.
 
