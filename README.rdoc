@@ -111,11 +111,3 @@ OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 
-class Pessoa < ActiveRecord::Base
-  usar_como_cpf :cpf
-  validate :validates_uniqueness_of_cnpj
-  
-  def validates_uniqueness_of_cnpj
-    errors.add(:cpf, "deve ser único") unless find(:conditions => ["cpf = ?", cpf.numero]).nil?
-  end 
-end
