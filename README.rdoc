@@ -9,8 +9,83 @@ Suppose you have a boolean attribute called <tt>active</tt> inside a User model.
 * <tt>active?</tt> - Returns if the attribute's value is <tt>true</tt> or <tt>false</tt>
 * <tt>active_humanize</tt> - Returns a string representing each of the <tt>true</tt> or <tt>false</tt> values.
 
+=== Examples
 
+  class User < ActiveRecord::Base
+    booleanize :active
+  end
+  
+  u = User.new(:active => true)
+  u.active? #=> true
+  u.active = false
+  u.active_humanize #=> "True"
+  u.active? #=> false
+  u.active_humanize #=> "False"
+  
+You can also specify which strings Booleanize should use for each of the <tt>true</tt> and <tt>false</tt> values, by passing an array with the format [:attr_name, "string for true", "string for false"].
 
+  class User < ActiveRecord::Base
+    booleanize [:active, "Yes", "No"]
+  end
+  
+  u = user.new(:active => true)
+  u.active_humanize #=> "Yes"
+  
+== Named scopes
+
+Booleanize will create two new named_scopes for each received attribute. Using the example given above, will have
+
+* <tt>active</tt>  - Will return all the objects for which the <tt>active</tt> boolean attribute is true. It's equivalent to <tt>named_scope :active, :conditions => {:active => true}</tt>
+* <tt>not_active</tt> - Will return all the objects for which the <tt>active</tt> boolean attribute is false. It's equivalent to <tt>named_scope :not-active, :conditions => {:active => false}</tt>
+  
+You can pass as many attributes to the <tt>booleanize</tt> method, either in the form of a symbol or as a three element array.
+
+  class User < ActiveRecord::Base
+    booleanize :active, [:smart, "Yes!", "No, dumb"], :friend
+  end
+  
+== Resume
+
+It's simple: Instead of writing this:
+
+  class User < ActiveRecord::Base
+    named_scope :active, :conditions => {:active => true}
+    named_scope :not_active, :conditions => {:active => false}
+    
+    def active_humanize
+      active ? "Yes" : "No"
+    end
+    
+    def active?
+      active ? true : false  #=> because we'll always want it to return true or false, and never nil.
+    end
+  end  
+  
+You can simply write
+
+  class User < ActiveRecord::Base
+    booleanize [:active, "Yes", "No"]
+  end
+  
+== Installation
+
+Just clone the plugin inside <tt>RAILS_ROOT/vendor/plugins</tt>
+
+  git clone git://github.com/cassiomarques/booleanize.git 
+  
+== Running the tests
+
+Booleanize is a fully tested plugin. If you'd like to run the tests, you'll need:
+
+* RSpec installed as a gem
+* SQlite3
+* SQlite3 Ruby adapter
+
+Just enter the plugin's folder and run
+
+  rake spec
+  
+And happilly watch all the tests pass (if everything needed for the tests is installed in your computer).
 
 == LICENSE
 
@@ -34,3 +109,13 @@ NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
 LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
 OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+
+class Pessoa < ActiveRecord::Base
+  usar_como_cpf :cpf
+  validate :validates_uniqueness_of_cnpj
+  
+  def validates_uniqueness_of_cnpj
+    errors.add(:cpf, "deve ser único") unless find(:conditions => ["cpf = ?", cpf.numero]).nil?
+  end 
+end
