@@ -43,6 +43,8 @@ Booleanize will create two new named_scopes for each received attribute. Using t
 
   <tt>named_scope :not-active, :conditions => {:active => false}</tt>
   
+== Booleanizing your booleans  
+  
 The <tt>booleanize</tt> method can receive several parameters. Each parameter can be:
 * A Symbol
 * A Hash like {:attr_name => ['str_for_true', 'str_for_false']}
