@@ -84,7 +84,7 @@ It's simple: Instead of writing this:
 You can simply write
 
   class User < ActiveRecord::Base
-    booleanize [:active, "Yes", "No"]
+    booleanize :active => ["Yes", "No"]
   end
   
 == Installation
