@@ -50,6 +50,7 @@ The <tt>booleanize</tt> method can receive several parameters. Each parameter ca
 * A Hash like {:attr_name => ['str_for_true', 'str_for_false']}
 * An Array with three elements, like [:attr_name, 'str_for_true', 'str_for_false']
 
+  
   class User < ActiveRecord::Base
     booleanize :active, [:smart, "Yes!", "No, very dumb"], :deleted => ["Yes, I'm gone", "No, I'm still here!"]
   end
