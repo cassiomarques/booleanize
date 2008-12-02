@@ -43,11 +43,26 @@ Booleanize will create two new named_scopes for each received attribute. Using t
 
   <tt>named_scope :not-active, :conditions => {:active => false}</tt>
   
-You can pass as many attributes to the <tt>booleanize</tt> method, either in the form of a symbol or as a three element array.
+The <tt>booleanize</tt> method can receive several parameters. Each parameter can be:
+* A Symbol
+* A Hash like {:attr_name => ['str_for_true', 'str_for_false']}
+* A Array with three elements, like [:attr_name, 'str_for_true', 'str_for_false']
 
   class User < ActiveRecord::Base
-    booleanize :active, [:smart, "Yes!", "No, dumb"], :friend
+    booleanize :active, [:smart, "Yes!", "No, very dumb"], :deleted => ["Yes, I'm gone", "No, I'm still here!"]
   end
+    
+You must pay attention to the fact that the Hash parameter must be the last one (or the only one), otherwise you must enclose it with {...}
+
+  class User < ActiveRecord::Base
+    booleanize {:deleted => ["Yes, I'm gone", "No, I'm still here!"]}, :active, [:smart, "Yes!", "No, very dumb"]
+  end
+  
+But obviously you can pass several key/value pairs in a single Hash
+
+  class User < ActiveRecord::Base
+    booleanize :active => ["Yes, use me!", "No, I'm disabled"], :deleted => ["Yes, I'm gone", "No, I'm still here!"]
+  end  
   
 == Resume
 
