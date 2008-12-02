@@ -48,7 +48,7 @@ Booleanize will create two new named_scopes for each received attribute. Using t
 The <tt>booleanize</tt> method can receive several parameters. Each parameter can be:
 * A Symbol
 * A Hash like {:attr_name => ['str_for_true', 'str_for_false']}
-* A Array with three elements, like [:attr_name, 'str_for_true', 'str_for_false']
+* An Array with three elements, like [:attr_name, 'str_for_true', 'str_for_false']
 
   class User < ActiveRecord::Base
     booleanize :active, [:smart, "Yes!", "No, very dumb"], :deleted => ["Yes, I'm gone", "No, I'm still here!"]
