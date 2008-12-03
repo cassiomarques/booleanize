@@ -17,8 +17,8 @@ Suppose you have a boolean attribute called <tt>active</tt> inside a User model.
   
   u = User.new(:active => true)
   u.active? #=> true
-  u.active = false
   u.active_humanize #=> "True"
+  u.active = false  
   u.active? #=> false
   u.active_humanize #=> "False"
   
