@@ -1,6 +1,0 @@
-0.2.0 (02 Dec 2008)
-* Now booleanize will receive symbols, arrays or hashes as parameters.
-
-0.1.0 (30 Nov 2008)
-* Initial release
-

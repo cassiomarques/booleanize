@@ -1,0 +1,261 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+
+	<title>cassiomarques/booleanize @ GitHub</title>
+	
+	<style type="text/css">
+		body {
+  		margin-top: 1.0em;
+  		background-color: #71fa7f;
+		  font-family: "helvetica"; 
+  		color: #000000;
+    }
+    #container {
+      margin: 0 auto;
+      width: 700px;
+    }
+    .code {
+      background-color: black;
+      font-family: monospace;
+      color: white;
+      margin-bottom: 10px;
+      padding: 6px;
+    }
+		h1 { font-size: 3.8em; color: #8e0580; margin-bottom: 3px; }
+		h1 .small { font-size: 0.4em; }
+		h1 a { text-decoration: none }
+		h2 { font-size: 1.5em; color: #8e0580; }
+    h3 { text-align: center; color: #8e0580; }
+    .header-left { text-align: left; }
+    a { color: #8e0580; }
+    .description { font-size: 1.2em; margin-bottom: 30px; margin-top: 30px; font-style: italic;}
+    .download { float: right; }
+		pre { background: #000; color: #fff; padding: 15px;}
+    hr { border: 0; width: 80%; border-bottom: 1px solid #aaa}
+    .footer { text-align:center; padding-top:30px; font-style: italic; }
+	</style>
+	
+</head>
+
+<body>
+  <a href="http://github.com/cassiomarques/booleanize"><img style="position: absolute; top: 0; right: 0; border: 0;" src="http://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub" /></a>
+  
+  <div id="container">
+
+    <div class="download">
+      <a href="http://github.com/cassiomarques/booleanize/zipball/master">
+        <img border="0" width="90" src="http://github.com/images/modules/download/zip.png"></a>
+      <a href="http://github.com/cassiomarques/booleanize/tarball/master">
+        <img border="0" width="90" src="http://github.com/images/modules/download/tar.png"></a>
+    </div>
+      
+    <h1><a href="http://github.com/cassiomarques/booleanize">booleanize</a> 
+      <span class="small">by <a href="http://github.com/cassiomarques">cassiomarques</a></small></h1>
+
+    <div class="description">
+      A Rails plugin that adds some new methods for boolean attributes in Active Record models
+    </div>
+
+    <p>     
+Booleanize is a Ruby on Rails plugin that adds new methods to help you work with your models' boolean attributes. Basically, it creates two new instance methods and two named scopes for each specified boolean attribute.
+
+<h2>Instance Methods</h2>
+
+Suppose you have a boolean attribute called <tt>active</tt> inside a User model. If you pass the name of this attribute to the booleanize method, two new methods will be created: 
+
+<ul>
+  <li><tt>active?</tt> - Returns if the attribute's value is <tt>true</tt> or <tt>false</tt></li>
+  <li><tt>active_humanize</tt> - Returns a string representing each of the <tt>true</tt> or <tt>false</tt> values.</li>
+</ul>
+
+<h3 class="header-left">Examples</h3>
+<div class="code">
+<font color="#ffff00">&nbsp;1 </font><font color="#ff6600">class</font>&nbsp;<font color="#ffffff">User</font>&nbsp;&lt; <font color="#ffffff">ActiveRecord</font>::<font color="#ffffff">Base</font><br>
+<font color="#ffff00">&nbsp;2 </font>&nbsp;&nbsp;booleanize <font color="#339999">:active</font><br>
+<font color="#ffff00">&nbsp;3 </font><font color="#ff6600">end</font><br>
+<font color="#ffff00">&nbsp;4 </font><br>
+<font color="#ffff00">&nbsp;5 </font>u = <font color="#ffffff">User</font>.new(<font color="#339999">:active</font>&nbsp;=&gt; <font color="#ffee98">true</font>)<br>
+<font color="#ffff00">&nbsp;6 </font>u.active? <font color="#9933cc">#=&gt; true</font><br>
+<font color="#ffff00">&nbsp;7 </font>u.active_humanize <font color="#9933cc">#=&gt; &quot;True&quot;</font><br>
+<font color="#ffff00">&nbsp;8 </font>u.active = <font color="#ffee98">false</font>&nbsp;&nbsp;<br>
+<font color="#ffff00">&nbsp;9 </font>u.active? <font color="#9933cc">#=&gt; false</font><br>
+<font color="#ffff00">10 </font>u.active_humanize <font color="#9933cc">#=&gt; &quot;False&quot;</font><br>
+</div>
+
+<p>  
+You can also specify which strings Booleanize should use for each of the <tt>true</tt> and <tt>false</tt> values, by passing an array with the format <tt>[:attr_name, "string for true", "string for false"]</tt>.
+</p>
+
+<div class="code"> 
+<font color="#ffff00">1 </font><font color="#ff6600">class</font>&nbsp;<font color="#ffffff">User</font>&nbsp;&lt; <font color="#ffffff">ActiveRecord</font>::<font color="#ffffff">Base</font><br>
+<font color="#ffff00">2 </font>&nbsp;&nbsp;booleanize [<font color="#339999">:active</font>, <font color="#66ff00">&quot;</font><font color="#66ff00">Yes</font><font color="#66ff00">&quot;</font>, <font color="#66ff00">&quot;</font><font color="#66ff00">No</font><font color="#66ff00">&quot;</font>]<br>
+<font color="#ffff00">3 </font><font color="#ff6600">end</font><br>
+<font color="#ffff00">4 </font><br>
+<font color="#ffff00">5 </font>u = <font color="#ffffff">User</font>.new(<font color="#339999">:active</font>&nbsp;=&gt; <font color="#ffee98">true</font>)<br>
+<font color="#ffff00">6 </font>u.active_humanize <font color="#9933cc">#=&gt; &quot;Yes&quot;</font><br>
+</div>
+  
+<h3 class="header-left">Named scopes</h3>
+
+Booleanize will create two new named_scopes for each received attribute. Using the example given above, we'll have:
+
+<ul>
+  <li><tt>active</tt>  - Will return all the objects for which the <tt>active</tt> boolean attribute is true. It's equivalent to <tt>named_scope :active, :conditions => {:active => true}</tt></li>
+  
+  <li><tt>not_active</tt> - Will return all the objects for which the <tt>active</tt> boolean attribute is false. It's equivalent to <tt>named_scope :not-active, :conditions => {:active => false}</tt></li>
+</ul>
+  
+<h2>Booleanizing your booleans</h2>  
+  
+<p>
+The <tt>booleanize</tt> method can receive several parameters. Each parameter can be:
+<ul>
+  <li> Symbol</li>
+  <li>A Hash like {:attr_name => ['str_for_true', 'str_for_false']}</li>
+  <li>An Array with three elements, like [:attr_name, 'str_for_true', 'str_for_false']</li>
+</ul>
+</p>
+
+<div class="code">
+<font color="#ffff00">1 </font><font color="#ff6600">class</font>&nbsp;<font color="#ffffff">User</font>&nbsp;&lt; <font color="#ffffff">ActiveRecord</font>::<font color="#ffffff">Base</font><br>
+<font color="#ffff00">2 </font>&nbsp;&nbsp;booleanize <font color="#339999">:active</font>, [<font color="#339999">:smart</font>, <font color="#66ff00">&quot;</font><font color="#66ff00">Yes!</font><font color="#66ff00">&quot;</font>, <font color="#66ff00">&quot;</font><font color="#66ff00">No, very dumb</font><font color="#66ff00">&quot;</font>], <font color="#339999">:deleted</font>&nbsp;=&gt; [<font color="#66ff00">&quot;</font><font color="#66ff00">Yes, I'm gone</font><font color="#66ff00">&quot;</font>, <font color="#66ff00">&quot;</font><font color="#66ff00">No, I'm still here!</font><font color="#66ff00">&quot;</font>]<br>
+<font color="#ffff00">3 </font><font color="#ff6600">end</font><br>
+</div>
+    
+<p>You must pay attention to the fact that the Hash parameter must be the last one (or the only one), otherwise you must enclose it with {...}</p>
+
+<div class="code">
+<font color="#ffff00">1 </font><font color="#ff6600">class</font>&nbsp;<font color="#ffffff">User</font>&nbsp;&lt; <font color="#ffffff">ActiveRecord</font>::<font color="#ffffff">Base</font><br>
+<font color="#ffff00">2 </font>&nbsp;&nbsp;booleanize {<font color="#339999">:deleted</font>&nbsp;=&gt; [<font color="#66ff00">&quot;</font><font color="#66ff00">Yes, I'm gone</font><font color="#66ff00">&quot;</font>, <font color="#66ff00">&quot;</font><font color="#66ff00">No, I'm still here!</font><font color="#66ff00">&quot;</font>]}, <font color="#339999">:active</font>, [<font color="#339999">:smart</font>, <font color="#66ff00">&quot;</font><font color="#66ff00">Yes!</font><font color="#66ff00">&quot;</font>, <font color="#66ff00">&quot;</font><font color="#66ff00">No, very dumb</font><font color="#66ff00">&quot;</font>]<br>
+<font color="#ffff00">3 </font><font color="#ff6600">end</font><br>
+</div>
+  
+<p>
+  But obviously you can pass several key/value pairs in a single Hash
+</p>
+
+<div class="code">
+<font color="#ffff00">1 </font><font color="#ff6600">class</font>&nbsp;<font color="#ffffff">User</font>&nbsp;&lt; <font color="#ffffff">ActiveRecord</font>::<font color="#ffffff">Base</font><br>
+<font color="#ffff00">2 </font>&nbsp;&nbsp;booleanize <font color="#339999">:active</font>&nbsp;=&gt; [<font color="#66ff00">&quot;</font><font color="#66ff00">Yes, use me!</font><font color="#66ff00">&quot;</font>, <font color="#66ff00">&quot;</font><font color="#66ff00">No, I'm disabled</font><font color="#66ff00">&quot;</font>], <font color="#339999">:deleted</font>&nbsp;=&gt; [<font color="#66ff00">&quot;</font><font color="#66ff00">Yes, I'm gone</font><font color="#66ff00">&quot;</font>, <font color="#66ff00">&quot;</font><font color="#66ff00">No, I'm still here!</font><font color="#66ff00">&quot;</font>]<br>
+<font color="#ffff00">3 </font><font color="#ff6600">end</font>&nbsp;&nbsp;<br>
+</div>
+  
+<h2>Resume</h2>
+
+<p>
+  It's simple: Instead of writing this:
+</p>
+
+<div class="code">
+<font color="#ffff00">&nbsp;1 </font><font color="#ff6600">class</font>&nbsp;<font color="#ffffff">User</font>&nbsp;&lt; <font color="#ffffff">ActiveRecord</font>::<font color="#ffffff">Base</font><br>
+<font color="#ffff00">&nbsp;2 </font>&nbsp;&nbsp;named_scope <font color="#339999">:active</font>, <font color="#339999">:conditions</font>&nbsp;=&gt; {<font color="#339999">:active</font>&nbsp;=&gt; <font color="#ffee98">true</font>}<br>
+<font color="#ffff00">&nbsp;3 </font>&nbsp;&nbsp;named_scope <font color="#339999">:not_active</font>, <font color="#339999">:conditions</font>&nbsp;=&gt; {<font color="#339999">:active</font>&nbsp;=&gt; <font color="#ffee98">false</font>}<br>
+<font color="#ffff00">&nbsp;4 </font>&nbsp;&nbsp;<br>
+<font color="#ffff00">&nbsp;5 </font>&nbsp;&nbsp;<font color="#ff6600">def</font>&nbsp;<font color="#ffcc00">active_humanize</font><br>
+<font color="#ffff00">&nbsp;6 </font>&nbsp;&nbsp;&nbsp;&nbsp;active ? <font color="#66ff00">&quot;</font><font color="#66ff00">Yes</font><font color="#66ff00">&quot;</font>&nbsp;: <font color="#66ff00">&quot;</font><font color="#66ff00">No</font><font color="#66ff00">&quot;</font><br>
+<font color="#ffff00">&nbsp;7 </font>&nbsp;&nbsp;<font color="#ff6600">end</font><br>
+<font color="#ffff00">&nbsp;8 </font>&nbsp;&nbsp;<br>
+<font color="#ffff00">&nbsp;9 </font>&nbsp;&nbsp;<font color="#ff6600">def</font>&nbsp;<font color="#ffcc00">active?</font><br>
+<font color="#ffff00">10 </font>&nbsp;&nbsp;&nbsp;&nbsp;active ? <font color="#ffee98">true</font>&nbsp;: <font color="#ffee98">false</font>&nbsp;&nbsp;<font color="#9933cc">#=&gt; we'll always want it to return true or false, and never nil.</font><br>
+<font color="#ffff00">11 </font>&nbsp;&nbsp;<font color="#ff6600">end</font><br>
+<font color="#ffff00">12 </font><font color="#ff6600">end</font>&nbsp;&nbsp;<br>
+</div>
+
+<p>
+  You can simply write
+</p>
+
+<div class="code">
+<font color="#ffff00">1 </font><font color="#ff6600">class</font>&nbsp;<font color="#ffffff">User</font>&nbsp;&lt; <font color="#ffffff">ActiveRecord</font>::<font color="#ffffff">Base</font><br>
+<font color="#ffff00">2 </font>&nbsp;&nbsp;booleanize <font color="#339999">:active</font>&nbsp;=&gt; [<font color="#66ff00">&quot;</font><font color="#66ff00">Yes</font><font color="#66ff00">&quot;</font>, <font color="#66ff00">&quot;</font><font color="#66ff00">No</font><font color="#66ff00">&quot;</font>]<br>
+<font color="#ffff00">3 </font><font color="#ff6600">end</font><br>
+</div>
+  
+<h2>Installation</h2>
+
+<p>
+  Just clone the plugin inside <tt>RAILS_ROOT/vendor/plugins</tt>
+</p>
+
+<pre>git clone git://github.com/cassiomarques/booleanize.git</pre> 
+  
+<h2>Running the tests</h2>
+
+<p>Booleanize is a fully tested plugin. If you'd like to run the tests, you'll need:</p>
+
+<ul>
+  <li>RSpec installed as a gem</li>
+  <li>
+    SQlite3
+  </li>
+  <li>
+    SQlite3 Ruby adapter
+  </li>
+</ul>
+
+<p>
+  Just enter the plugin's folder and run
+</p>
+
+  <pre>rake spec</pre>
+  
+<p>
+  And happilly watch all the tests pass (if everything needed for the tests is installed in your computer).
+</p>
+
+<h2>License</h2>
+
+Copyright (c) 2008 Cassio Marques
+
+Permission is hereby granted, free of charge, to any person obtaining
+a copy of this software and associated documentation files (the
+"Software"), to deal in the Software without restriction, including
+without limitation the rights to use, copy, modify, merge, publish,
+distribute, sublicense, and/or sell copies of the Software, and to
+permit persons to whom the Software is furnished to do so, subject to
+the following conditions:
+
+The above copyright notice and this permission notice shall be
+included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+<h2>Authors</h2>
+<p>
+  Cassio Marques (cassiommc@gmail.com)<br/>
+</p>
+
+<h2>Contact</h2>
+<p>Cassio Marques (cassiommc@gmail.com)<br/>      </p>
+
+
+    <h2>Download</h2>
+    <p>
+      You can download this project in either
+      <a href="http://github.com/cassiomarques/booleanize/zipball/master">zip</a> or
+      <a href="http://github.com/cassiomarques/booleanize/tarball/master">tar</a> formats.
+    </p>
+    <p>You can also clone the project with <a href="http://git-scm.com">Git</a>
+      by running:
+      <pre>$ git clone git://github.com/cassiomarques/booleanize</pre>
+    </p>
+      
+    <div class="footer">
+      get the source code on GitHub : <a href="http://github.com/cassiomarques/booleanize">cassiomarques/booleanize</a>
+    </div>
+    
+  </div>
+
+  
+</body>
+</html>
