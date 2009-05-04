@@ -52,7 +52,7 @@ module Booleanize
     #   active_users = User.active #=> same as named_scope :active, :conditions => {:active => true}
     #   disabled_users = User.not_active #=> same as named_scope :not_active, :conditions => {:active => false}
     #
-    def booleanize(*params)   
+    def booleanize(*params)
       params.each do |param|
         case param
           when Symbol: create_methods_for_symbol(param)
@@ -60,19 +60,17 @@ module Booleanize
           when Hash: create_methods_for_hash(param)
           else raise_error
         end
-      end  
+      end
     end
-    
+
     private
-    
-    def get_b; binding; end
-    
+
     def create_true_named_scope(attr_name)
-      eval("self.named_scope :#{attr_name}, :conditions => {:#{attr_name} => true}", get_b)
+      named_scope attr_name, :conditions => { attr_name => true }
     end
-    
+
     def create_false_named_scope(attr_name)
-      eval("self.named_scope :not_#{attr_name}, :conditions => {:#{attr_name} => false}", get_b)
+      named_scope :"not_#{attr_name}", :conditions => { attr_name => false }
     end
     
     def create_humanize_method(attr_name, true_str, false_str)
