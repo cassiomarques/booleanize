@@ -3,7 +3,7 @@ Gem::Specification.new do |s|
   s.version  = "0.1"
   s.date     = "2009-05-04"
   s.summary  = "A Rails plugin that adds some new methods for boolean attributes in Active Record models."
-  s.email    = "cassio.marques@gmail.com"
+  s.email    = "cassiommc@gmail.com"
   s.homepage = "http://github.com/cassiomarques/booleanize"
   s.description = "A Rails plugin that adds some new methods for boolean attributes in Active Record models."
   s.has_rdoc = true
