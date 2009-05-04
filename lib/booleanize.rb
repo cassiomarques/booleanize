@@ -34,11 +34,10 @@ module Booleanize
     #
     # You must pay attention to the fact that the Hash parameter must be the last one, otherwise you must enclose it with {...}
     #
-    # You'll have 2 new instance methods for each received boolean attribute:
+    # You'll have a humanized instance method for each received boolean attribute:
     #
     #   u = User.new(:acive => true. :smart => false)
     #   u.smart_humanize #=> "No, very dumb"
-    #   u.smart? #=> false
     #
     #   If you pass a symbol instead of an array, booleanize will use the 'True' default text for boolean true
     #   and the 'False' default text for boolean false.
@@ -79,10 +78,6 @@ module Booleanize
       eval("self.named_scope :not_#{attr_name}, :conditions => {:#{attr_name} => false}", get_b)
     end
     
-    def create_question_mark_method(attr_name)
-      class_eval("def #{attr_name}?; #{attr_name} ? true : false; end")
-    end
-    
     def create_humanize_method(attr_name, true_str, false_str)
       true_str = (true_str.nil? ? "True" : true_str.to_s)
       false_str = (false_str.nil? ? "False" : false_str.to_s)
@@ -92,7 +87,6 @@ module Booleanize
     def create_methods(attr_name, true_str = nil, false_str = nil)
       create_true_named_scope(attr_name)
       create_false_named_scope(attr_name)
-      create_question_mark_method(attr_name)
       create_humanize_method(attr_name, true_str, false_str)
     end
     
