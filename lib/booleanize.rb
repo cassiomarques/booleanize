@@ -64,9 +64,6 @@ module Booleanize
     end
     
     private
-    def remove_apostrophes(str)
-      str.gsub(/'/, "\\\\'")
-    end
     
     def get_b; binding; end
     
@@ -81,7 +78,7 @@ module Booleanize
     def create_humanize_method(attr_name, true_str, false_str)
       true_str = (true_str.nil? ? "True" : true_str.to_s)
       false_str = (false_str.nil? ? "False" : false_str.to_s)
-      class_eval("def #{attr_name}_humanize; #{attr_name} ? '#{remove_apostrophes(true_str)}' : '#{remove_apostrophes(false_str)}'; end")
+      class_eval("def #{attr_name}_humanize; #{attr_name} ? #{true_str.inspect} : #{false_str.inspect}; end")
     end
     
     def create_methods(attr_name, true_str = nil, false_str = nil)
