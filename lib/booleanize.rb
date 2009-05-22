@@ -51,6 +51,19 @@
 #
 module Booleanize
 
+  class Config
+    def self.default_strings(options = {})
+      error = "Wrong configuration parameters for booleanize: You should pass something like {:true => \"Yes\", :false => \"No\" }"
+      raise error unless options.is_a?(Hash) and [:true, :false].all? { |k| options.has_key? k }
+      @@default_for_true = options[:true]
+      @@default_for_false = options[:false]
+    end
+
+    protected
+    def self.default_for_true; @@default_for_true rescue nil; end
+    def self.default_for_false; @@default_for_false rescue nil; end
+  end
+
   def booleanize(*params)
     params.each do |param|
       case param
@@ -73,8 +86,8 @@ module Booleanize
     end
 
     def create_humanize_method(attr_name, true_str, false_str)
-      true_str = (true_str.nil? ? "True" : true_str.to_s)
-      false_str = (false_str.nil? ? "False" : false_str.to_s)
+      true_str = (true_str.nil? ? (Config.default_for_true.nil? ? "True" : Config.default_for_true) : true_str.to_s)
+      false_str = (false_str.nil? ? (Config.default_for_false.nil? ? "False" : Config.default_for_false) : false_str.to_s)
       class_eval("def #{attr_name}_humanize; #{attr_name} ? #{true_str.inspect} : #{false_str.inspect}; end")
     end
 

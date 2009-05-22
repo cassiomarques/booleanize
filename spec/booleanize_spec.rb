@@ -198,6 +198,38 @@ describe "booleanize" do
       User.not_deleted.should have(6).items
     end
   end 
+
+  describe "with global configuration" do
+    before do
+      Booleanize::Config.default_strings :true => "Oh yes!", :false => "Nooo"
+      class User
+        booleanize :active
+        booleanize :smart => ["Too smart", "Duh!"]
+      end
+    end
+    
+    it "should use the globally defined string for true" do
+      User.create(:active => true).active_humanize.should == "Oh yes!"
+    end
+
+    it "should use the globally defined string for false" do
+      User.create(:active => false).active_humanize.should == "Nooo"
+    end
+
+    it "should use the string for yes specified in the class definition" do
+      User.create(:smart => true).smart_humanize.should == "Too smart"
+    end
+
+    it "should use the string for no specified in the class definition" do
+      User.create(:smart => false).smart_humanize.should == "Duh!"
+    end
+
+    it "should raise an exception if the config parameters are not inside a two pairs hash" do
+      ["hello", {:bla => :foo}, ["bla", "ble"]].each do |params|
+        lambda { Booleanize::Config.default_strings params }.should raise_error
+      end
+    end
+  end
 end
 
 
