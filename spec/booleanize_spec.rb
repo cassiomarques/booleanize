@@ -202,7 +202,8 @@ describe "booleanize" do
   describe "with global configuration" do
     before do
       Booleanize::Config.default_strings :true => "Oh yes!", :false => "Nooo"
-      class User
+      
+      User.class_eval do
         booleanize :active
         booleanize :smart => ["Too smart", "Duh!"]
       end

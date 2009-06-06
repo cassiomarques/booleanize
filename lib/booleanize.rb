@@ -49,27 +49,33 @@
 #   active_users = User.active #=> same as named_scope :active, :conditions => {:active => true}
 #   disabled_users = User.not_active #=> same as named_scope :not_active, :conditions => {:active => false}
 #
+require 'singleton'
+
 module Booleanize
 
   class Config
+    include Singleton
+    
+    attr_accessor :default_for_true, :default_for_false
+    
     def self.default_strings(options = {})
       error = "Wrong configuration parameters for booleanize: You should pass something like {:true => \"Yes\", :false => \"No\" }"
       raise error unless options.is_a?(Hash) and [:true, :false].all? { |k| options.has_key? k }
-      @@default_for_true = options[:true]
-      @@default_for_false = options[:false]
+      instance.default_for_true = options[:true]
+      instance.default_for_false = options[:false]
     end
 
     protected
-    def self.default_for_true; @@default_for_true rescue nil; end
-    def self.default_for_false; @@default_for_false rescue nil; end
+    def self.default_for_true; instance.default_for_true rescue nil; end
+    def self.default_for_false; instance.default_for_false rescue nil; end
   end
 
   def booleanize(*params)
     params.each do |param|
       case param
-        when Symbol: create_methods_for_symbol(param)
-        when Array: create_methods_for_array(param)
-        when Hash: create_methods_for_hash(param)
+        when Symbol; create_methods_for_symbol(param)
+        when Array; create_methods_for_array(param)
+        when Hash; create_methods_for_hash(param)
         else raise_error
       end
     end
@@ -89,6 +95,7 @@ module Booleanize
       true_str = (true_str.nil? ? (Config.default_for_true.nil? ? "True" : Config.default_for_true) : true_str.to_s)
       false_str = (false_str.nil? ? (Config.default_for_false.nil? ? "False" : Config.default_for_false) : false_str.to_s)
       class_eval("def #{attr_name}_humanize; #{attr_name} ? #{true_str.inspect} : #{false_str.inspect}; end")
+      
     end
 
     def create_methods(attr_name, true_str = nil, false_str = nil)
@@ -126,4 +133,4 @@ module Booleanize
 
 end
 
-ActiveRecord::Base.extend Booleanize
+ActiveRecord::Base.send(:extend, Booleanize)

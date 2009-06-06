@@ -1,3 +1,8 @@
+0.2.1 (06 May 2009)
+* Ruby 1.9 Support
+* Booleanize::Config class as Singleton
+* Fixes on the tests to run on Ruby 1.9
+
 0.2.0 (02 Dec 2008)
 * Now booleanize will receive symbols, arrays or hashes as parameters.
 
