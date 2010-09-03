@@ -82,13 +82,16 @@ module Booleanize
   end
 
   private
-
     def create_true_scope(attr_name)
-      scope attr_name, :conditions => { attr_name => true }
+      create_scope [attr_name, {:conditions => {attr_name => true}}]
     end
 
     def create_false_scope(attr_name)
-      scope :"not_#{attr_name}", :conditions => { attr_name => false }
+      create_scope [:"not_#{attr_name}", {:conditions => {attr_name => false}}]
+    end
+
+    def create_scope(params)
+      Rails.version > "2.3.8" ? scope(*params) : named_scope(*params)
     end
 
     def create_humanize_method(attr_name, true_str, false_str)

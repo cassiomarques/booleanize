@@ -97,7 +97,7 @@ Just clone the plugin inside <tt>RAILS_ROOT/vendor/plugins</tt>
 
 === Rails 3
 
-The 0.4 version and above are suited for use with Rails 3 and are NOT backward compatible with version 0.3
+The 0.5 version and above is suited for use with Rails 3. For previous versions, it will work but you'll get lots of warnings. 
   
 == Running the tests
 

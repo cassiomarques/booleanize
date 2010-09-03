@@ -1,12 +1,15 @@
 require 'rubygems'
 require 'rspec'
 require 'active_record'
+require 'ostruct'
 require File.dirname(__FILE__) + "/../lib/booleanize"
 
 ActiveRecord::Base.establish_connection(:adapter=>"sqlite3", :database => ":memory:")
 require File.dirname(__FILE__) + "/db/create_testing_structure"
 
 CreateTestingStructure.migrate(:up)
+
+Booleanize.const_set("Rails", OpenStruct.new(:version => "3.0.0"))
 
 class User < ActiveRecord::Base
   booleanize [:dumb, "Dumb as hell!", "No, this is a smart one!"], :active, [:smart, "Yes!", "No, very dumb"], :deleted => ["Yes, I'm gone", "No, I'm still here!"]

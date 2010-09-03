@@ -1,3 +1,7 @@
+0.5.0 (03 Sep 2010)
+* Ok, we're now compatible with both Rails 2 and 3. Be it scope or
+named_scope, they will be created.
+
 0.4.0 (03 Sep 2010)
 * Updated to use Rspec2 (now to run the tests just do `rspec ./spec`)
 * Changed the scope creation to use "scope" instead of "named_scope" so we no
