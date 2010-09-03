@@ -5,7 +5,7 @@
 #
 # = Description
 #
-# Creates two instance methods and two named scopes for each of the received boolean attributes.
+# Creates two instance methods and two scopes for each of the received boolean attributes.
 #  
 # == Instance methods
 #   
@@ -14,9 +14,9 @@
 #
 # == Named scopes
 #
-#   Creates two named scopes for esch boolean attribute:
-#     named_scope :attr_name, :conditions => {:attr_name => true}
-#     named_scope :not_attr_name, :conditions => {:attr_name => false}
+#   Creates two scopes for esch boolean attribute:
+#     scope :attr_name, :conditions => {:attr_name => true}
+#     scope :not_attr_name, :conditions => {:attr_name => false}
 #
 # == How to use it
 #
@@ -44,10 +44,10 @@
 #   u.active_humanize #=> "True"
 #   u.active? #=> true
 #
-# You'll also get two new named_scope methods for your model
+# You'll also get two new scope methods for your model
 #
-#   active_users = User.active #=> same as named_scope :active, :conditions => {:active => true}
-#   disabled_users = User.not_active #=> same as named_scope :not_active, :conditions => {:active => false}
+#   active_users = User.active #=> same as scope :active, :conditions => {:active => true}
+#   disabled_users = User.not_active #=> same as scope :not_active, :conditions => {:active => false}
 #
 require 'singleton'
 
@@ -83,12 +83,12 @@ module Booleanize
 
   private
 
-    def create_true_named_scope(attr_name)
-      named_scope attr_name, :conditions => { attr_name => true }
+    def create_true_scope(attr_name)
+      scope attr_name, :conditions => { attr_name => true }
     end
 
-    def create_false_named_scope(attr_name)
-      named_scope :"not_#{attr_name}", :conditions => { attr_name => false }
+    def create_false_scope(attr_name)
+      scope :"not_#{attr_name}", :conditions => { attr_name => false }
     end
 
     def create_humanize_method(attr_name, true_str, false_str)
@@ -99,8 +99,8 @@ module Booleanize
     end
 
     def create_methods(attr_name, true_str = nil, false_str = nil)
-      create_true_named_scope(attr_name)
-      create_false_named_scope(attr_name)
+      create_true_scope(attr_name)
+      create_false_scope(attr_name)
       create_humanize_method(attr_name, true_str, false_str)
     end
 

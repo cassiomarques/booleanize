@@ -1,12 +1,11 @@
 require 'rake'
-require 'spec/rake/spectask'
+require 'rspec/core/rake_task'
 require 'rake/rdoctask'
 
 desc 'Default: run unit tests.'
 task :default => :spec
 
-Spec::Rake::SpecTask.new do |t|
-  t.spec_files = FileList['spec/**/*_spec.rb']
+RSpec::Core::RakeTask.new do |t|
   t.spec_opts = ["--color", "--format", "specdoc"]
 end  
 

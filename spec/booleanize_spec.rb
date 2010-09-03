@@ -1,5 +1,5 @@
 require 'rubygems'
-require 'spec'
+require 'rspec'
 require 'active_record'
 require File.dirname(__FILE__) + "/../lib/booleanize"
 

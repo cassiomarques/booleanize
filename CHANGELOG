@@ -1,3 +1,11 @@
+0.4.0 (03 Sep 2010)
+* Updated to use Rspec2 (now to run the tests just do `rspec ./spec`)
+* Changed the scope creation to use "scope" instead of "named_scope" so we no
+longer warning messages in Rails 3.
+* Please note that this release WILL NOT work with Rails 2.3.x, it's a Rails 3
+specific release.
+
+
 0.3.0 (06 May 2009)
 * Ruby 1.9 Support
 * Booleanize::Config class as Singleton
