@@ -1,7 +1,9 @@
+# encoding: utf-8
+
 Gem::Specification.new do |s|
   s.name     = "booleanize"
-  s.version  = "0.5"
-  s.date     = "2010-09-03"
+  s.version  = "0.6"
+  s.date     = "2015-05-10"
   s.summary  = "A Rails plugin that adds some new methods for boolean attributes in Active Record models."
   s.email    = "cassiommc@gmail.com"
   s.homepage = "http://github.com/cassiomarques/booleanize"
