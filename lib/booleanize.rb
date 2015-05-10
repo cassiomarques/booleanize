@@ -6,9 +6,9 @@
 # = Description
 #
 # Creates two instance methods and two scopes for each of the received boolean attributes.
-#  
+#
 # == Instance methods
-#   
+#
 #   Creates a attr_name_humanize for each boolean attribute, which returns a specific string for each boolean true or false.
 #   Creates a attr_name? method for each boolean attribute.
 #
@@ -55,9 +55,9 @@ module Booleanize
 
   class Config
     include Singleton
-    
+
     attr_accessor :default_for_true, :default_for_false
-    
+
     def self.default_strings(options = {})
       error = "Wrong configuration parameters for booleanize: You should pass something like {:true => \"Yes\", :false => \"No\" }"
       raise error unless options.is_a?(Hash) and [:true, :false].all? { |k| options.has_key? k }
@@ -83,22 +83,18 @@ module Booleanize
 
   private
     def create_true_scope(attr_name)
-      create_scope [attr_name, {:conditions => {attr_name => true}}]
+      scope attr_name, lambda { where attr_name => true }
     end
 
     def create_false_scope(attr_name)
-      create_scope [:"not_#{attr_name}", {:conditions => {attr_name => false}}]
-    end
-
-    def create_scope(params)
-      Rails.version > "2.3.8" ? scope(*params) : named_scope(*params)
+      scope :"not_#{attr_name}", lambda { where attr_name => false }
     end
 
     def create_humanize_method(attr_name, true_str, false_str)
       true_str = (true_str.nil? ? (Config.default_for_true.nil? ? "True" : Config.default_for_true) : true_str.to_s)
       false_str = (false_str.nil? ? (Config.default_for_false.nil? ? "False" : Config.default_for_false) : false_str.to_s)
       class_eval("def #{attr_name}_humanize; #{attr_name} ? #{true_str.inspect} : #{false_str.inspect}; end")
-      
+
     end
 
     def create_methods(attr_name, true_str = nil, false_str = nil)
